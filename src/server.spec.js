@@ -14,24 +14,9 @@ describe('#startServer', function() {
     assert.equal(true, await isPortTaken(port))
   })
 
-  it(`should redirect index route to /me`, async function() {
-    const response = await request.get(`http://localhost:${port}`, {
-      followRedirect: false,
-      resolveWithFullResponse: true,
-      simple: false
-    })
-    assert.equal(302, response.statusCode)
-  })
-
   it(`should successfully pull /me`, async function() {
     const response = await request.get(`http://localhost:${port}/me`, { json: true })
     assert.equal(true, response.hasOwnProperty('ip'))
-  })
-
-  it(`should successfully pull /8.8.8.8`, async function() {
-    const response = await request.get(`http://localhost:${port}/8.8.8.8`, { json: true })
-    assert.equal('8.8.8.8', response.ip)
-    assert.equal('US', response.country)
   })
 })
 

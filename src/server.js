@@ -25,14 +25,6 @@ export default async function startServer(portToListenOn=config.server.port) {
         res.json({ ip, ...geoip.lookup(ip) })
       })
 
-      app.get('/:ip', function ipRoute(req, res) {
-        res.json({ ip: req.params.ip, ...geoip.lookup(req.params.ip) })
-      })
-
-      app.all('*', function fallbackRoute(req, res) {
-        res.redirect('/me')
-      })
-
       app.use(function expressErrorHandler(err, req, res, next) {
         log.error('Express error handling', err)
         res.sendStatus(500)
