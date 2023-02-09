@@ -35,7 +35,7 @@ describe('#meRoute', function() {
 
   it(`calls geoip with ip from user behind proxy and responds with result`, async function() {
     // given
-    const req = { ip: '192.168.0.255', headers: { 'x-forwarded-for': '192.168.0.2' } }
+    const req = { ip: '192.168.0.255', headers: { 'x-forwarded-for': '192.168.0.2, 192.168.0.254' } }
     const res = { json: sinon.stub() }
     geoipStub.returns({ ip: '192.168.0.2', country: 'BE', city: 'Durbuy' })
 
