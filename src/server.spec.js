@@ -16,7 +16,7 @@ describe('#startServer', function() {
 
   it(`should successfully pull /me`, async function() {
     const response = await request.get(`http://localhost:${port}/me`, { json: true })
-    assert.equal(true, response.hasOwnProperty('ip'))
+    assert.deepEqual(response, {})
   })
 })
 

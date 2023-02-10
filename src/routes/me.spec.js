@@ -51,6 +51,20 @@ describe('#meRoute', function() {
     })
   })
 
+  it(`calls geoip with ip and responds {} if location is unknown`, async function() {
+    // given
+    const req = { ip: '192.168.0.3', headers: {} }
+    const res = { json: sinon.stub() }
+    geoipStub.returns(null)
+
+    // when
+    meRoute(req, res)
+
+    // then
+    sinon.assert.calledOnceWithExactly(geoipStub, '192.168.0.3')
+    sinon.assert.calledOnceWithExactly(res.json, {})
+  })
+
   after(function() {
     geoipStub.restore();
   })
