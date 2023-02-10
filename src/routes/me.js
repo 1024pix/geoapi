@@ -10,5 +10,5 @@ export default function meRoute(req, res) {
     return;
   }
 
-  res.json({ ip, ...location })
+  res.json({ country: location.country })
 };
