@@ -1,4 +1,9 @@
 import geoip from 'geoip-lite'
+import bunyan from 'bunyan'
+
+import config from '../config'
+
+const log = bunyan.createLogger(config.logger.options)
 
 export default function meRoute(req, res) {
   const realClientIpAddress = (req.headers['x-forwarded-for'] || req.ip || "").split(',')
@@ -7,8 +12,10 @@ export default function meRoute(req, res) {
 
   if (location === null) {
     res.json({})
+    log.info({ country: "-" }, 'Could not match IP address with country')
     return;
   }
 
   res.json({ country: location.country })
+  log.info({ country: location.country }, 'IP address matched with country')
 };
