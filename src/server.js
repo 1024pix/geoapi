@@ -1,6 +1,5 @@
 import http from 'http'
 import express from 'express'
-import cors from 'cors'
 import bunyan from 'bunyan'
 
 import config from './config'
@@ -17,7 +16,6 @@ export default async function startServer(portToListenOn=config.server.port) {
 
       // https://expressjs.com/en/guide/behind-proxies.html
       app.set('trust proxy', 1)
-      app.use(cors())
 
       app.get('/me', meRoute)
 
