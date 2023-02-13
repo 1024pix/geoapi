@@ -1,9 +1,9 @@
 import http from 'http'
 import express from 'express'
-import cors from 'cors'
 import bunyan from 'bunyan'
-import geoip from 'geoip-lite'
+
 import config from './config'
+import meRoute from './routes/me'
 
 const log = bunyan.createLogger(config.logger.options)
 const app = express()
@@ -16,22 +16,8 @@ export default async function startServer(portToListenOn=config.server.port) {
 
       // https://expressjs.com/en/guide/behind-proxies.html
       app.set('trust proxy', 1)
-      app.use(cors())
 
-      app.get('/me', function meRoute(req, res) {
-        // https://devcenter.heroku.com/articles/http-routing#heroku-headers
-        const realClientIpAddress = (req.headers['x-forwarded-for'] || req.ip || "").split(',')
-        const ip = realClientIpAddress[realClientIpAddress.length - 1]
-        res.json({ ip, ...geoip.lookup(ip) })
-      })
-
-      app.get('/:ip', function ipRoute(req, res) {
-        res.json({ ip: req.params.ip, ...geoip.lookup(req.params.ip) })
-      })
-
-      app.all('*', function fallbackRoute(req, res) {
-        res.redirect('/me')
-      })
+      app.get('/me', meRoute)
 
       app.use(function expressErrorHandler(err, req, res, next) {
         log.error('Express error handling', err)
