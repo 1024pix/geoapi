@@ -19,7 +19,7 @@ var iconv = require('iconv-lite');
 var lazy = require('lazy');
 var rimraf = require('rimraf').sync;
 var yauzl = require('yauzl');
-var utils = require('../lib/utils');
+var utils = require('../node_modules/geoip-lite/lib/utils');
 var Address6 = require('ip-address').Address6;
 var Address4 = require('ip-address').Address4;
 
@@ -36,7 +36,7 @@ var geodatadir = args.find(function (arg) {
 if (typeof geodatadir === 'undefined' && typeof process.env.GEODATADIR !== 'undefined') {
   geodatadir = 'geodatadir=' + process.env.GEODATADIR;
 }
-var dataPath = path.resolve(__dirname, '..', 'data');
+var dataPath = path.resolve(__dirname, '..', 'node_modules', 'geoip-lite', 'data');
 if (typeof geodatadir !== 'undefined') {
   dataPath = path.resolve(process.cwd(), geodatadir.split('=')[1]);
   if (!fs.existsSync(dataPath)) {
@@ -44,7 +44,7 @@ if (typeof geodatadir !== 'undefined') {
     process.exit(1);
   }
 }
-var tmpPath = path.resolve(__dirname, '..', 'tmp');
+var tmpPath = path.resolve(__dirname, '..', 'node_modules', 'geoip-lite', 'tmp');
 var countryLookup = {};
 var cityLookup = {};
 var databases = [
@@ -62,22 +62,6 @@ var databases = [
       '',
       'geoip-country.dat',
       'geoip-country6.dat'
-    ]
-  },
-  {
-    type: 'city',
-    url: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City-CSV&suffix=zip&' + license_key,
-    checksum: 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City-CSV&suffix=zip.sha256&' + license_key,
-    fileName: 'GeoLite2-City-CSV.zip',
-    src: [
-      'GeoLite2-City-Locations-en.csv',
-      'GeoLite2-City-Blocks-IPv4.csv',
-      'GeoLite2-City-Blocks-IPv6.csv'
-    ],
-    dest: [
-      'geoip-city-names.dat',
-      'geoip-city.dat',
-      'geoip-city6.dat'
     ]
   }
 ];
