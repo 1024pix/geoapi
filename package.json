@@ -4,7 +4,8 @@
   "author": "Lance Whatley <lance.whatley@risk3sixty.com>",
   "description": "Lightweight API service to get geolocation data from IP addresses.",
   "engines": {
-    "node": "12.13.0"
+    "node": ">=16.15 <18",
+    "npm": ">=8.13.2 <9"
   },
   "repository": {
     "type": "git",
