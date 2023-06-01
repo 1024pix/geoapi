@@ -13,9 +13,10 @@
   },
   "scripts": {
     "build": "gulp build",
-    "postinstall": "npm run build",
+    "postinstall": "npm run update-geoip-lite-db && rm node_modules/geoip-lite/data/geoip-city* && npm run build",
     "start": "pm2-runtime start ecosystem.config.js",
-    "test": "mocha --exit --require @babel/register --recursive './src/**/*.spec.js'"
+    "test": "mocha --exit --require @babel/register --recursive './src/**/*.spec.js'",
+    "update-geoip-lite-db": "node scripts/geoip-lite-update-db.js license_key=$MAX_MIND_API_KEY"
   },
   "devDependencies": {
     "@babel/register": "^7.5.5",
